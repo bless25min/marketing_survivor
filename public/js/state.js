@@ -8,7 +8,8 @@ const state = {
     frames: 0,
     seconds: 0,
 
-    player: { x: 0, y: 0, r: 10, speed: 4, hp: 100, maxHp: 100, angle: 0 },
+    // Player - Start at Map Center (1500, 1500)
+    player: { x: 1500, y: 1500, r: 10, speed: 4, hp: 100, maxHp: 100, angle: 0 },
 
     bullets: [],
     enemyBullets: [],
