@@ -396,7 +396,14 @@ function draw() {
     // If we want camera, we need to translate context by (Center - PlayerPos).
     const cx = state.width / 2;
     const cy = state.height / 2;
-    ctx.translate(cx - state.player.x, cy - state.player.y);
+
+    // Camera Transform with Zoom
+    // 1. Center
+    // 2. Scale
+    // 3. Move to world pos
+    ctx.translate(cx, cy);
+    ctx.scale(state.zoom, state.zoom);
+    ctx.translate(-state.player.x, -state.player.y);
 
     drawGems();
     drawBullets();

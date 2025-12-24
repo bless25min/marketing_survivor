@@ -121,6 +121,10 @@ window.addEventListener('mousedown', (e) => {
         state.screen = 'start';
     }
     if (state.screen === 'story') {
+        const now = Date.now();
+        if (now - state.lastStoryTime < 1000) return; // 1s Debounce prevents accidental skips
+        state.lastStoryTime = now;
+
         state.storyStep = (state.storyStep || 0) + 1;
         if (state.storyStep < state.storyContent.length) {
             updateUI();
@@ -145,6 +149,10 @@ window.addEventListener('touchstart', e => {
         return;
     }
     if (state.screen === 'story') {
+        const now = Date.now();
+        if (now - state.lastStoryTime < 1000) return; // 1s Debounce
+        state.lastStoryTime = now;
+
         state.storyStep = (state.storyStep || 0) + 1;
         if (state.storyStep < state.storyContent.length) {
             updateUI();
@@ -365,6 +373,9 @@ function resetGame() {
     state.player.hp = 100;
     state.player.x = state.width / 2;
     state.player.y = state.height / 2;
+    // Mobile Zoom: If width < 800, zoom out (0.6) to see more.
+    state.zoom = state.width < 800 ? 0.6 : 1.0;
+
     state.frames = 0;
     state.seconds = 0;
     state.xp = 0;

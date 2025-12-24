@@ -40,7 +40,11 @@ const state = {
     hitStop: 0,
 
     // Upgrade Menu
-    upgradeOptions: []
+    upgradeOptions: [],
+
+    // Logic
+    lastStoryTime: 0,
+    zoom: 1.0
 };
 
 let weapons = {};
