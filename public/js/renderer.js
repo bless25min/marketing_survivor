@@ -32,7 +32,23 @@ function drawPlayer() {
     ctx.beginPath();
     ctx.arc(0, 0, state.player.r, 0, Math.PI * 2);
     ctx.fill();
-    ctx.restore();
+
+    // Overhead Health Bar
+    ctx.restore(); // Restore separate from bar to avoid rotation
+
+    if (state.player.hp < state.player.maxHp) {
+        const hpPct = Math.max(0, state.player.hp / state.player.maxHp);
+        const barWidth = 40;
+        const barY = state.player.y - state.player.r - 15;
+
+        // Background
+        ctx.fillStyle = '#374151'; // Gray-700
+        ctx.fillRect(state.player.x - barWidth / 2, barY, barWidth, 4);
+
+        // Health
+        ctx.fillStyle = hpPct > 0.5 ? '#4ade80' : (hpPct > 0.2 ? '#facc15' : '#ef4444');
+        ctx.fillRect(state.player.x - barWidth / 2, barY, barWidth * hpPct, 4);
+    }
 }
 
 function drawBullets() {
@@ -326,6 +342,24 @@ function drawFloatingTexts() {
 }
 
 function drawHUD() {
+    // Health Bar (Bottom, above XP)
+    const hpPct = Math.max(0, state.player.hp / state.player.maxHp);
+    const hpBarY = state.height - 35;
+
+    // Background
+    ctx.fillStyle = '#1f2937';
+    ctx.fillRect(0, hpBarY, state.width, 15);
+
+    // Foreground
+    ctx.fillStyle = hpPct > 0.5 ? '#22c55e' : '#ef4444';
+    ctx.fillRect(0, hpBarY, state.width * hpPct, 15);
+
+    // Text
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 10px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`HP: ${Math.ceil(state.player.hp)} / ${state.player.maxHp}`, state.width / 2, hpBarY + 11);
+
     // XP Bar
     const xpPct = state.xp / state.xpNeeded;
     ctx.fillStyle = '#1e293b';

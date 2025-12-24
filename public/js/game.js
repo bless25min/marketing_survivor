@@ -186,6 +186,11 @@ window.addEventListener('touchend', e => {
 });
 
 // Upgrade System
+function gameOver() {
+    state.screen = 'over';
+    updateUI();
+}
+
 function levelUp() {
     state.screen = 'upgrade';
     state.xp -= state.xpNeeded;
