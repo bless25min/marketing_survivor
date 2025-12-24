@@ -337,7 +337,7 @@ function drawHUD() {
     ctx.fillStyle = '#fff';
     ctx.font = 'bold 16px monospace';
     ctx.textAlign = 'left';
-    ctx.fillText(`LV ${state.level}`, 10, 16);
+    ctx.fillText(`等級 ${state.level}`, 10, 16);
 
     // Timer
     const mins = Math.floor(state.seconds / 60);
@@ -345,8 +345,37 @@ function drawHUD() {
     ctx.textAlign = 'center';
     ctx.fillText(`${mins}:${secs}`, state.width / 2, 16);
 
+    // Wave Countdown (Red Warning Style)
+    if (state.nextWaveTime > 0) {
+        const remaining = Math.max(0, state.nextWaveTime - state.seconds);
+        const rMins = Math.floor(remaining / 60);
+        const rSecs = Math.floor(remaining % 60).toString().padStart(2, '0');
+
+        // Pulsing Effect
+        const pulse = Math.abs(Math.sin(state.frames * 0.1));
+        const fontSize = 16 + (pulse * 4); // Pulse between 16px and 20px
+
+        ctx.fillStyle = '#ef4444'; // Red Warning Color
+        ctx.font = `bold ${fontSize}px monospace`;
+        ctx.shadowColor = '#991b1b';
+        ctx.shadowBlur = 10;
+        ctx.fillText(`⚠️ 下一波: ${rMins}:${rSecs} ⚠️`, state.width / 2, 40); // Moved down slightly
+        ctx.shadowBlur = 0;
+    } else {
+        const pulse = Math.abs(Math.sin(state.frames * 0.1));
+        const fontSize = 16 + (pulse * 4);
+
+        ctx.fillStyle = '#ef4444';
+        ctx.font = `bold ${fontSize}px monospace`;
+        ctx.shadowColor = '#f00';
+        ctx.shadowBlur = 15;
+        ctx.fillText(`🔥 最後一波 (BOSS) 🔥`, state.width / 2, 40);
+        ctx.shadowBlur = 0;
+    }
+
     // Stats
     ctx.textAlign = 'right';
+    ctx.fillStyle = '#fff'; // Reset color
     ctx.font = '12px monospace';
     // ctx.fillText(`Enemies: ${state.enemies.length}`, state.width - 10, 16);
 }

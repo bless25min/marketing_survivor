@@ -1,4 +1,37 @@
+// Wave Configuration (Aligned with Story Chapters & New Monster Types)
+const WAVE_CONFIG = [
+    // Chapter 1 (0s): Lead only
+    { time: 0, rate: 30, types: ['lead'], max: 50 },
+
+    // Chapter 2 (30s): Add Tank (Increase spawn rate)
+    { time: 30, rate: 20, types: ['tank', 'tank', 'lead'], max: 100 },
+
+    // Chapter 3 (60s): Add Dasher (Increase spawn rate)
+    { time: 60, rate: 15, types: ['dasher', 'dasher', 'tank', 'lead'], max: 200 },
+
+    // Chapter 4 (90s): Add Ranged (Wizard) - Heavily weighted to appear
+    { time: 90, rate: 10, types: ['ranged', 'ranged', 'ranged', 'tank', 'dasher'], max: 300 },
+
+    // Chapter 5 (120s): Add Boss (Demon) - FINAL WAVE
+    { time: 120, rate: 30, types: ['boss'], max: 400 } // Faster spawn, ONLY BOSSES
+];
+
+function getWaveConfig() {
+    // Find the latest config that matches current time
+    for (let i = WAVE_CONFIG.length - 1; i >= 0; i--) {
+        if (state.seconds >= WAVE_CONFIG[i].time) {
+            return WAVE_CONFIG[i];
+        }
+    }
+    return WAVE_CONFIG[0];
+}
+
 function spawnOneEnemy() {
+    const config = getWaveConfig();
+
+    // Cap enemy count
+    if (state.enemies.length >= config.max) return;
+
     // Edges
     let x, y;
     if (Math.random() < 0.5) {
@@ -9,45 +42,69 @@ function spawnOneEnemy() {
         y = Math.random() < 0.5 ? -30 : state.height + 30;
     }
 
-    // Type logic based on time
-    let type = 'lead'; // Basic
-    if (state.seconds >= 60 && Math.random() > 0.7) type = 'tank';
-    if (state.seconds >= 120 && Math.random() > 0.8) type = 'dasher';
-    if (state.seconds >= 180 && Math.random() > 0.85) type = 'ranged';
-    if (state.seconds >= 240 && Math.random() > 0.95 && !state.enemies.some(e => e.type === 'boss')) type = 'boss';
+    // Pick Type
+    let type = config.types[Math.floor(Math.random() * config.types.length)];
 
-    // Scaling: Base * 1.08^Level + Time Scaling (Slower ramp)
-    const difficultyMult = Math.pow(1.08, state.level) + (state.seconds / 90);
+    // Scaling: Base * 1.08^Level + Time Scaling
+    // Make scaling a bit more aggressive over time
+    const timeMult = 1 + (state.seconds / 60) * 0.8; // Stronger time scaling
+    const difficultyMult = Math.pow(1.08, state.level) * timeMult;
 
-    let stats = { hp: 10, speed: 2, visual: '👻', r: 15, xp: 5 * (1 + state.level * 0.1) };
+    let stats = { hp: 10, speed: 2, visual: '👻', r: 15, xp: 5 * difficultyMult };
 
     if (type === 'lead') {
-        stats = { hp: 10 * difficultyMult, speed: (2 + Math.random()) * 0.45, visual: '👻', r: 15, xp: 5 * (1 + state.level * 0.1) };
+        stats = { hp: 10 * difficultyMult, speed: (2 + Math.random()) * 0.45, visual: '👻', r: 15, xp: 5 * difficultyMult };
     }
     else if (type === 'tank') {
-        stats = { hp: 40 * difficultyMult, speed: 1.0 * 0.45, visual: '😡', r: 25, xp: 20 * (1 + state.level * 0.1) };
+        stats = { hp: 40 * difficultyMult, speed: 1.0 * 0.45, visual: '😡', r: 25, xp: 20 * difficultyMult };
     }
     else if (type === 'dasher') {
-        stats = { hp: 15 * difficultyMult, speed: 4.0 * 0.45, visual: '💸', r: 12, xp: 10 * (1 + state.level * 0.1) };
+        stats = { hp: 15 * difficultyMult, speed: 4.0 * 0.45, visual: '💸', r: 12, xp: 10 * difficultyMult };
     }
     else if (type === 'ranged') {
-        stats = { hp: 20 * difficultyMult, speed: 1.5 * 0.45, visual: '🧙', r: 18, xp: 15 * (1 + state.level * 0.1), type: 'ranged', shootCd: 0 };
+        stats = { hp: 20 * difficultyMult, speed: 1.5 * 0.45, visual: '🧙', r: 18, xp: 15 * difficultyMult, type: 'ranged', shootCd: 0 };
     }
     else if (type === 'boss') {
-        stats = { hp: 5000 * difficultyMult, speed: 0.5 * 0.45, visual: '👹', r: 60, xp: 500 * (1 + state.level * 0.1), type: 'boss', knockbackImmune: true };
+        // SUPER BUFFED BOSS: Fast, Giant, Tanky
+        stats = {
+            hp: 50000 * difficultyMult,
+            speed: 8.0, // Extremely Fast (Player is ~3)
+            visual: '👹',
+            r: 300, // Massive (occupies huge portion of screen)
+            xp: 500 * difficultyMult,
+            type: 'boss',
+            knockbackImmune: true
+        };
     }
 
     state.enemies.push({ x, y, ...stats, maxHp: stats.hp });
 }
 
-function updateEnemies() {
-    if (state.frames % CONFIG.SPAWN_RATE_INITIAL === 0) {
-        // Spawn rate increases with time
-        const rate = Math.max(10, 60 - Math.floor(state.seconds / 10)); // Cap at 1 spawn per 10 frames
-        if (state.frames % rate === 0) spawnOneEnemy();
+function getNextWaveTime() {
+    for (let i = 0; i < WAVE_CONFIG.length; i++) {
+        // Find first config that is in the future
+        if (WAVE_CONFIG[i].time > state.seconds) {
+            return WAVE_CONFIG[i].time;
+        }
     }
-    // Always spawn at least one occasionally if rate logic is weird
-    if (state.frames % 60 === 0) spawnOneEnemy();
+    return -1; // No more waves (Endless)
+}
+
+function updateEnemies() {
+    const config = getWaveConfig();
+
+    // Update Next Wave Timer for UI
+    state.nextWaveTime = getNextWaveTime();
+
+    // Fix: Remove nested modulo. Check rate directly against frames.
+    // Use a variable rate? Modulo works if rate is stable or we track next spawn.
+    // Since rate changes rarely (every 30s), direct modulo is fine providing it's not nested.
+    if (state.frames % config.rate === 0) {
+        spawnOneEnemy();
+    }
+
+    // Always spawn at start to ensure something is there
+    if (state.frames === 1) spawnOneEnemy();
 
     // Move logic
     for (let i = state.enemies.length - 1; i >= 0; i--) {
@@ -97,7 +154,6 @@ function updateEnemyBullets() {
             spawnParticleBurst(state.player.x, state.player.y, '#ef4444', 10);
             state.enemyBullets.splice(i, 1);
             if (state.player.hp <= 0 && state.screen === 'playing') {
-                // Game Over handled in main loop usually, or simple check here
                 state.screen = 'over';
                 updateUI();
             }
@@ -163,7 +219,7 @@ function updateBullets() {
                 if (speed > 8) { b.vx *= 0.9; b.vy *= 0.9; }
             }
             b.x += b.vx; b.y += b.vy; // Double move? No, already moved above. Remove duplicate move.
-            // Oh wait, `b.x +=` is above. So this modifies v for NEXT frame. Correct.
+            // Oh wait, `b.x += ` is above. So this modifies v for NEXT frame. Correct.
         } else if (b.type === 'spider_minion') {
             // Minion AI
             b.attackCd = (b.attackCd || 0) - 1;

@@ -2,6 +2,7 @@ function findNearestEnemy() {
     let nearest = null;
     let minDist = Infinity;
     state.enemies.forEach(e => {
+        if (e.type === 'boss') return; // Ignore Boss
         const d = (e.x - state.player.x) ** 2 + (e.y - state.player.y) ** 2;
         if (d < minDist) {
             minDist = d;
@@ -13,11 +14,13 @@ function findNearestEnemy() {
 
 function findNearestEnemies(count) {
     // Sort by distance
-    const sorted = [...state.enemies].sort((a, b) => {
-        const da = (a.x - state.player.x) ** 2 + (a.y - state.player.y) ** 2;
-        const db = (b.x - state.player.x) ** 2 + (b.y - state.player.y) ** 2;
-        return da - db;
-    });
+    const sorted = [...state.enemies]
+        .filter(e => e.type !== 'boss') // Ignore Boss
+        .sort((a, b) => {
+            const da = (a.x - state.player.x) ** 2 + (a.y - state.player.y) ** 2;
+            const db = (b.x - state.player.x) ** 2 + (b.y - state.player.y) ** 2;
+            return da - db;
+        });
     return sorted.slice(0, count);
 }
 
@@ -38,6 +41,8 @@ function hasSynergy(name) {
 }
 
 function takeDamage(e, dmg) {
+    if (e.type === 'boss') return; // ABSOLUTE IMMUNITY: Boss cannot take damage or effect
+
     e.hp -= dmg;
     // Floating Text
     spawnFloatingText(Math.ceil(dmg), e.x, e.y - 10, '#fff');
@@ -71,6 +76,9 @@ function createExplosion(x, y, r, dmg, sourceBullet) {
     spawnParticleBurst(x, y, '#facc15', 20);
     // Logic
     state.enemies.forEach(e => {
+        // Boss Immunity to Explosions
+        if (e.type === 'boss') return;
+
         const d = (e.x - x) ** 2 + (e.y - y) ** 2;
         if (d < r ** 2) {
             takeDamage(e, dmg);
@@ -109,6 +117,9 @@ function checkCollisions() {
     state.bullets.forEach(b => {
         state.enemies.forEach(e => {
             if (e.dead) return;
+
+            // BOSS IMMUNITY: Bosses ignore all bullets to prevent lag and ensure they are unstoppable
+            if (e.type === 'boss') return;
 
             if (b.type === 'funnel_zone') {
                 // Circle collision
