@@ -113,16 +113,23 @@ window.addEventListener('mousemove', e => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
 });
-window.addEventListener('mousedown', (e) => {
-    if (state.screen === 'start') resetGame();
+// Consolidated Input (Mouse + Touch)
+window.addEventListener('pointerdown', (e) => {
+    if (state.screen === 'start') {
+        resetGame();
+        return;
+    }
     if (state.screen === 'over') {
-        // Prevent restart if clicking the course button
         if (e.target.closest('.course-btn')) return;
         state.screen = 'start';
+        return;
     }
     if (state.screen === 'story') {
+        // No complex debounce needed for Pointer Events (fires once)
+        // Tiny debounce (200ms) just to prevent super-rapid clicking if desired,
+        // but let's trust "one event per tap" first.
         const now = Date.now();
-        if (now - state.lastStoryTime < 1000) return; // 1s Debounce prevents accidental skips
+        if (now - (state.lastStoryTime || 0) < 200) return;
         state.lastStoryTime = now;
 
         state.storyStep = (state.storyStep || 0) + 1;
@@ -142,27 +149,8 @@ window.addEventListener('touchstart', e => {
     // e.preventDefault(); // Remove global preventDefault to allow button clicks? No, it might break joystick.
     // Instead, handle explicitly.
 
-    if (state.screen === 'start') { resetGame(); return; }
-    if (state.screen === 'over') {
-        if (e.target.closest('.course-btn')) return;
-        state.screen = 'start';
-        return;
-    }
-    if (state.screen === 'story') {
-        e.preventDefault(); // Stop mouse emulation (Ghost Click)
-        const now = Date.now();
-        if (now - state.lastStoryTime < 1000) return; // 1s Debounce
-        state.lastStoryTime = now;
-
-        state.storyStep = (state.storyStep || 0) + 1;
-        if (state.storyStep < state.storyContent.length) {
-            updateUI();
-        } else {
-            state.screen = 'playing';
-            updateUI();
-        }
-        return;
-    }
+    // Touch UI handled by pointerdown now.
+    // Joystick Logic Only
     // Allow clicks on Upgrade screen to pass through (don't activate joystick)
     if (state.screen === 'upgrade') return;
 
