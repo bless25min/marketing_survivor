@@ -20,6 +20,17 @@ function update() {
     if (keys['ArrowLeft'] || keys['a']) dx -= 1;
     if (keys['ArrowRight'] || keys['d']) dx += 1;
 
+    // Joystick Input
+    if (joystick.active) {
+        const jdx = joystick.x - joystick.originX;
+        const jdy = joystick.y - joystick.originY;
+        const dist = Math.sqrt(jdx * jdx + jdy * jdy);
+        if (dist > 10) { // Deadzone
+            dx += jdx / dist;
+            dy += jdy / dist;
+        }
+    }
+
     // Joystick Override
     if (joystick.active) {
         const jdx = joystick.x - joystick.originX;
