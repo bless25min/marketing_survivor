@@ -125,11 +125,11 @@ window.addEventListener('pointerdown', (e) => {
         return;
     }
     if (state.screen === 'story') {
-        // No complex debounce needed for Pointer Events (fires once)
-        // Tiny debounce (200ms) just to prevent super-rapid clicking if desired,
-        // but let's trust "one event per tap" first.
+        // PREVENT GHOST EVENTS: Telling browser we handled this.
+        e.preventDefault();
+
         const now = Date.now();
-        if (now - (state.lastStoryTime || 0) < 200) return;
+        if (now - (state.lastStoryTime || 0) < 300) return; // 0.3s Debounce for natural reading rhythm
         state.lastStoryTime = now;
 
         state.storyStep = (state.storyStep || 0) + 1;
