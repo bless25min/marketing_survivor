@@ -20,6 +20,15 @@ function drawGrid() {
     for (let y = -state.height; y < state.height * 2; y += 40) {
         ctx.beginPath(); ctx.moveTo(-state.width, y); ctx.lineTo(state.width * 2, y); ctx.stroke();
     }
+
+    // Map Boundary
+    const MAP_SIZE = 3000;
+    ctx.strokeStyle = '#ef4444'; // Red Border
+    ctx.lineWidth = 5;
+    ctx.strokeRect(0, 0, MAP_SIZE, MAP_SIZE);
+
+    // Warning Stripes outside?
+    // Optional, but Red Border is clear enough.
 }
 
 function drawPlayer() {

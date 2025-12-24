@@ -52,9 +52,10 @@ function update() {
         state.player.x += dx * moveSpeed;
         state.player.y += dy * moveSpeed;
 
-        // Simple bounds (optional, unlimited map is implied by grid)
-        // state.player.x = Math.max(0, Math.min(state.width, state.player.x));
-        // state.player.y = Math.max(0, Math.min(state.height, state.player.y));
+        // Map Boundaries (Limit player movement)
+        const MAP_SIZE = 3000;
+        state.player.x = Math.max(0, Math.min(MAP_SIZE, state.player.x));
+        state.player.y = Math.max(0, Math.min(MAP_SIZE, state.player.y));
     }
 
     // Player Angle (Mouse)
@@ -151,8 +152,7 @@ window.addEventListener('touchstart', e => {
 
     // Touch UI handled by pointerdown now.
     // Joystick Logic Only
-    // Allow clicks on Upgrade screen to pass through (don't activate joystick)
-    if (state.screen === 'upgrade') return;
+    if (state.screen !== 'playing') return;
 
     // First touch is joystick
     if (!joystick.active) {
