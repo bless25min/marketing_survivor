@@ -149,6 +149,7 @@ window.addEventListener('touchstart', e => {
         return;
     }
     if (state.screen === 'story') {
+        e.preventDefault(); // Stop mouse emulation (Ghost Click)
         const now = Date.now();
         if (now - state.lastStoryTime < 1000) return; // 1s Debounce
         state.lastStoryTime = now;

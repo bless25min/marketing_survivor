@@ -54,6 +54,9 @@ function resize() {
     state.height = window.innerHeight;
     canvas.width = state.width;
     canvas.height = state.height;
+
+    // Auto-adjust Zoom for Mobile
+    state.zoom = state.width < 800 ? 0.6 : 1.0;
 }
 window.addEventListener('resize', resize);
 resize();
