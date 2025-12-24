@@ -410,7 +410,24 @@ function draw() {
 
     if (state.screen === 'playing' || state.screen === 'over') {
         drawHUD();
-        ctx.beginPath(); ctx.arc(joystick.x, joystick.y, 20, 0, Math.PI * 2); ctx.fill();
+        drawJoystick();
     }
+}
+
+function drawJoystick() {
+    if (typeof joystick === 'undefined' || !joystick.active) return;
+
+    // Outer Ring
+    ctx.beginPath();
+    ctx.arc(joystick.originX, joystick.originY, 50, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // Inner Thumb
+    ctx.beginPath();
+    ctx.arc(joystick.x, joystick.y, 20, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.fill();
 }
 }
