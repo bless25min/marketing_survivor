@@ -410,11 +410,7 @@ function draw() {
 
     if (state.screen === 'playing' || state.screen === 'over') {
         drawHUD();
-        if (typeof joystick !== 'undefined' && joystick.active) {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.beginPath(); ctx.arc(joystick.originX, joystick.originY, 50, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.beginPath(); ctx.arc(joystick.x, joystick.y, 20, 0, Math.PI * 2); ctx.fill();
-        }
+        ctx.beginPath(); ctx.arc(joystick.x, joystick.y, 20, 0, Math.PI * 2); ctx.fill();
     }
+}
 }
