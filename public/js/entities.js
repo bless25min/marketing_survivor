@@ -33,14 +33,19 @@ function spawnOneEnemy() {
     if (state.enemies.length >= config.max) return;
 
     // Edges
-    let x, y;
-    if (Math.random() < 0.5) {
-        x = Math.random() < 0.5 ? -30 : state.width + 30;
-        y = Math.random() * state.height;
-    } else {
-        x = Math.random() * state.width;
-        y = Math.random() < 0.5 ? -30 : state.height + 30;
-    }
+    // Edges (Relative to Player in World Space)
+    const angle = Math.random() * Math.PI * 2;
+    // Spawn radius: Enough to be off-screen (approx 600-800 depending on screen)
+    const spawnDist = 700;
+
+    let x = state.player.x + Math.cos(angle) * spawnDist;
+    let y = state.player.y + Math.sin(angle) * spawnDist;
+
+    // Clamp Spawn Position to Map Boundaries (3000)
+    // This ensures monsters always spawn INSIDE the arena.
+    const MAP_SIZE = 3000;
+    x = Math.max(50, Math.min(MAP_SIZE - 50, x));
+    y = Math.max(50, Math.min(MAP_SIZE - 50, y));
 
     // Pick Type
     let type = config.types[Math.floor(Math.random() * config.types.length)];

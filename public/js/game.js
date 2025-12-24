@@ -365,8 +365,11 @@ window.selectUpgrade = function (index) {
 function resetGame() {
     state.screen = 'playing';
     state.player.hp = 100;
-    state.player.x = state.width / 2;
-    state.player.y = state.height / 2;
+    // Spawn in Middle of Map (1500, 1500)
+    const CENTER = 1500;
+    state.player.x = CENTER;
+    state.player.y = CENTER;
+
     // Mobile Zoom: If width < 800, zoom out (0.6) to see more.
     state.zoom = state.width < 800 ? 0.6 : 1.0;
 

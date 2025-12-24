@@ -1,34 +1,44 @@
+const MAP_SIZE = 3000;
+
 function drawGrid() {
-    ctx.strokeStyle = CONFIG.COLORS.grid;
-    ctx.lineWidth = 1;
-    const gridSize = 40;
-    const offsetX = Math.floor(state.player.x / gridSize) * gridSize; // Stationary grid relative to world
-    const offsetY = Math.floor(state.player.y / gridSize) * gridSize;
+    // 0. No Inner Grid (Clean background)
 
-    // Parallax or standard camera? 
-    // Current logic: Player moves, camera stays? No, usually camera centers.
-    // draw() translate handles camera.
+    // 1. Map Boundary (Firewall Style)
+    ctx.save();
 
-    // Let's assume global coordinates.
-    // We need to draw grid lines covering the view.
-    // The view is translated by -shake. 
-    // Actually we need to draw grid based on player pos to give feeling of movement if background is static.
-    // Original simplified logic:
-    for (let x = -state.width; x < state.width * 2; x += 40) {
-        ctx.beginPath(); ctx.moveTo(x, -state.height); ctx.lineTo(x, state.height * 2); ctx.stroke();
-    }
-    for (let y = -state.height; y < state.height * 2; y += 40) {
-        ctx.beginPath(); ctx.moveTo(-state.width, y); ctx.lineTo(state.width * 2, y); ctx.stroke();
-    }
+    // Animated Red Glow
+    const pulse = Math.abs(Math.sin(state.frames * 0.05));
+    ctx.strokeStyle = `rgba(239, 68, 68, ${0.5 + pulse * 0.5})`; // #ef4444 pulsing opacity
+    ctx.lineWidth = 4;
 
-    // Map Boundary
-    const MAP_SIZE = 3000;
-    ctx.strokeStyle = '#ef4444'; // Red Border
-    ctx.lineWidth = 5;
+    // Dash animation
+    ctx.setLineDash([20, 10]);
+    ctx.lineDashOffset = -state.frames * 1;
+
+    ctx.shadowColor = '#ef4444';
+    ctx.shadowBlur = 10 + pulse * 10;
+
+    // Draw Border
     ctx.strokeRect(0, 0, MAP_SIZE, MAP_SIZE);
 
-    // Warning Stripes outside?
-    // Optional, but Red Border is clear enough.
+    // 2. Tech Corners (Solid)
+    ctx.setLineDash([]);
+    ctx.lineWidth = 6;
+    const s = 50;
+
+    ctx.beginPath();
+    // Top-Left
+    ctx.moveTo(0, s); ctx.lineTo(0, 0); ctx.lineTo(s, 0);
+    // Top-Right
+    ctx.moveTo(MAP_SIZE - s, 0); ctx.lineTo(MAP_SIZE, 0); ctx.lineTo(MAP_SIZE, s);
+    // Bottom-Right
+    ctx.moveTo(MAP_SIZE, MAP_SIZE - s); ctx.lineTo(MAP_SIZE, MAP_SIZE); ctx.lineTo(MAP_SIZE - s, MAP_SIZE);
+    // Bottom-Left
+    ctx.moveTo(s, MAP_SIZE); ctx.lineTo(0, MAP_SIZE); ctx.lineTo(0, MAP_SIZE - s);
+    ctx.stroke();
+    ctx.stroke();
+
+    ctx.restore();
 }
 
 function drawPlayer() {
@@ -426,7 +436,6 @@ function drawHUD() {
 function draw() {
     ctx.fillStyle = '#0f172a';
     ctx.fillRect(0, 0, state.width, state.height);
-    drawGrid();
 
     ctx.save();
     // Centering is tricky with fixed grid.
@@ -448,6 +457,7 @@ function draw() {
     ctx.scale(state.zoom, state.zoom);
     ctx.translate(-state.player.x, -state.player.y);
 
+    drawGrid(); // Draw Grid in World Space now
     drawGems();
     drawBullets();
     drawEnemyBullets();
