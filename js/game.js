@@ -169,6 +169,7 @@ window.addEventListener('touchstart', e => {
 }, { passive: false });
 
 window.addEventListener('touchmove', e => {
+    if (state.screen === 'upgrade') return; // Allow scrolling
     e.preventDefault();
     if (joystick.active) {
         // Find touch that started joystick? Simplified: just use first touch
@@ -182,6 +183,7 @@ window.addEventListener('touchmove', e => {
 }, { passive: false });
 
 window.addEventListener('touchend', e => {
+    if (state.screen === 'upgrade') return; // Allow click generation
     e.preventDefault();
     if (e.touches.length === 0) joystick.active = false;
 });
