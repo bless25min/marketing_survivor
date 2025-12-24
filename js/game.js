@@ -154,6 +154,8 @@ window.addEventListener('touchstart', e => {
         }
         return;
     }
+    // Allow clicks on Upgrade screen to pass through (don't activate joystick)
+    if (state.screen === 'upgrade') return;
 
     // First touch is joystick
     if (!joystick.active) {
@@ -560,8 +562,10 @@ function updateUI() {
             html += `
             <div class="card" onclick="selectUpgrade(${i})" style="border: 1px solid #4ade80; background: rgba(0, 20, 0, 0.9);">
                 <div class="icon">${u.icon}</div>
-                <h3 style="color:#4ade80;">${u.title}</h3>
-                <p style="color:#a7f3d0;">${u.desc}</p>
+                <div style="flex: 1;"> <!-- Text Wrapper -->
+                    <h3 style="color:#4ade80; margin: 0 0 5px 0;">${u.title}</h3>
+                    <p style="color:#a7f3d0; margin: 0;">${u.desc}</p>
+                </div>
             </div>`;
         });
         html += `</div>`;

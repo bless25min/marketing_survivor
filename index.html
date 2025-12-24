@@ -44,6 +44,15 @@
             display: flex;
             gap: 20px;
             pointer-events: auto;
+            flex-wrap: wrap;
+            /* Allow wrapping */
+            justify-content: center;
+            /* Center items */
+            overflow-y: auto;
+            /* Scroll if too many */
+            max-height: 80vh;
+            /* Prevent overflowing screen */
+            padding: 10px;
         }
 
         .card {
@@ -58,6 +67,39 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            flex-shrink: 0;
+            /* Prevent squashing if no wrap */
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .cards {
+                flex-direction: column;
+                /* Stack vertically on phone */
+                align-items: center;
+                width: 90%;
+            }
+
+            .card {
+                width: 100%;
+                /* Full width */
+                flex-direction: row;
+                /* Horizontal layout for card content? Or keep vertical? */
+                /* Let's keep vertical but smaller padding/text if needed, or row for compactness */
+                flex-direction: row;
+                text-align: left;
+                padding: 15px;
+            }
+
+            .card .icon {
+                font-size: 2.5rem;
+                margin-right: 15px;
+                margin-bottom: 0;
+            }
+
+            .card div {
+                /* Wrapper for text */
+            }
         }
 
         .card:hover {
