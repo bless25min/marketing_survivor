@@ -255,8 +255,50 @@ function updateUI() {
     ui.style.paddingBottom = '0';
 
     if (state.screen === 'start') {
-        ui.innerHTML = `<h1 style="font-size: 4rem; color: #fbbf24; text-shadow: 0 0 20px #b45309;">行銷倖存者</h1><p style="font-size: 1.5rem; animation: pulse 1s infinite;">點擊畫面開始挑戰</p>`;
+        const isLoggedIn = !!state.player.image;
+
+        ui.innerHTML = `
+            <h1 style="font-size: 4rem; color: #fbbf24; text-shadow: 0 0 20px #b45309;">行銷倖存者</h1>
+            <p style="font-size: 1.5rem; animation: pulse 1s infinite;">點擊畫面開始挑戰</p>
+            
+            ${!isLoggedIn ? `
+            <button onclick="window.location.href='/auth/login'" style="
+                margin-top: 30px;
+                background: #06C755;
+                color: white;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 1.2rem;
+                font-weight: bold;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                pointer-events: auto;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                transition: transform 0.1s;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                <span style="font-size: 1.5rem;">💬</span> 使用 LINE 登入 (XP +50%)
+            </button>
+            ` : `
+            <div style="
+                margin-top: 20px;
+                background: rgba(6, 199, 85, 0.2);
+                border: 1px solid #06C755;
+                padding: 10px 20px;
+                border-radius: 20px;
+                color: #06C755;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            ">
+                <span>✅ LINE 登入成功 - XP 加成啟動!</span>
+            </div>
+            `}
+        `;
         ui.style.display = 'flex';
+        ui.style.flexDirection = 'column'; // Ensure vertical stacking
         ui.style.background = 'rgba(0,0,0,0.6)';
         ui.style.border = 'none';
     } else if (state.screen === 'over') {
@@ -408,25 +450,33 @@ const STORY_TIMELINE = {
             speaker: "Narrator",
             name: "案例一：小杰 (行銷企劃)",
             content: "小杰是行銷企劃，他看過遊戲化理論、玩過案例，也能說出一堆動機設計名詞。\n\n但每次真的要做活動時，問題就來了。\n他知道「要有關卡、回饋、動機」，卻不知道第一步該怎麼開始。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_little_jie.png",
+            panel: 0
         },
         {
             speaker: "Little Jie",
             name: "小杰",
             content: "「我畫了一堆心智圖流程圖，最後還是回到一個靜態落地頁，加一句『加入 LINE 獲得好康』...\n不是我不懂理論，而是理論跟實作之間，根本少了一條橋。」",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_little_jie.png",
+            panel: 1
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "這堂課，就是把那條橋搭起來：\n從「我要加 LINE 好友」開始，一步一步拆成「使用者會怎麼玩、什麼時候願意登入、完成後得到什麼」。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_little_jie.png",
+            panel: 2
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "他第一次發現，原來遊戲化不是想得漂亮，而是流程走得順。",
-            action: "此為【真實案例】改編 ▶"
+            action: "此為【真實案例】改編 ▶",
+            image: "images/story/story_little_jie.png",
+            panel: 3
         }
     ],
     30: [
@@ -434,25 +484,33 @@ const STORY_TIMELINE = {
             speaker: "Narrator",
             name: "案例二：阿慧 (品牌主)",
             content: "阿慧每個月都在投廣告，曝光數看起來不差，但 LINE 好友數卻成長得很慢。\n她試過很多方式：換圖、換文案、送折扣、送抽獎，但加好友的那一步，永遠是最大的斷點。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_hui.png",
+            panel: 0
         },
         {
             speaker: "Ah Hui",
             name: "阿慧",
             content: "「後來我才意識到一件事：問題不在誘因，而在使用者根本沒有『參與感』。\n廣告只是被看過，但沒有被『玩過』。」",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_hui.png",
+            panel: 1
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "在課程中，她把原本的 CTA 改成一個簡單的互動流程，讓使用者先完成一個小任務，再自然引導 LINE Login。\n\n結果不是奇蹟式爆量，而是完成率與加好友率穩定上升。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_hui.png",
+            panel: 2
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "她第一次明白，行銷不是喊人留下資料，而是設計一段「讓人願意走完的體驗」。",
-            action: "此為【真實案例】改編 ▶"
+            action: "此為【真實案例】改編 ▶",
+            image: "images/story/story_ah_hui.png",
+            panel: 3
         }
     ],
     60: [
@@ -460,31 +518,41 @@ const STORY_TIMELINE = {
             speaker: "Narrator",
             name: "案例三：阿哲 (行銷人)",
             content: "阿哲很早就開始用 AI。他用 ChatGPT 寫文案、想點子，看起來都很厲害。\n但那些內容，始終停留在文件裡。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_zhe.png",
+            panel: 0
         },
         {
             speaker: "Ah Zhe",
             name: "阿哲",
             content: "「我不知道怎麼把這些想法變成真的上線的網頁，更不會寫程式串接互動...\n我好像想得到，但就是做不出來。\nAI 對我來說只是一個靈感產生器，不是能幫我把事情完成的工具。」",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_zhe.png",
+            panel: 1
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "直到在這堂課，他第一次用 AI 做的不是「文案」，而是整個遊戲化落地頁的結構。\n\n用 AI 拆解目標、產出遊戲流程、選項、引導說明，並直接拿來部署。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_zhe.png",
+            panel: 2
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "原來不用寫程式，也可以把創意真正做成落地頁！\n\nAI 在這裡不再只是「幫你想」，而是幫你把想法拆成結構、變成頁面、丟進市場跑。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_ah_zhe.png",
+            panel: 3
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "更關鍵的是，他不再問「哪個比較好」，而是直接做兩個版本實際跑廣告看數據。\n\n那一刻他才理解，AI 的價值不是創意，而是把創意變成可以被驗證的東西。",
-            action: "此為【真實案例】改編 ▶"
+            action: "此為【真實案例】改編 ▶",
+            image: "images/story/story_ah_zhe.png",
+            panel: 3
         }
     ],
     90: [
@@ -492,25 +560,33 @@ const STORY_TIMELINE = {
             speaker: "Narrator",
             name: "案例四：告別行銷腦霧",
             content: "許多行銷人在面對新專案時，常陷入「腦霧」狀態：\n看著產品，腦袋卻一片空白，完全不知道該從何下手。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_director.png",
+            panel: 0
         },
         {
             speaker: "Marketing Director",
             name: "行銷總監",
             content: "「我們不是沒經驗，而是每次都要從零發想，消耗巨大心力。\n我們需要的，不只是偶爾的靈感，而是一套能穩定產出的邏輯。」",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_director.png",
+            panel: 1
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "腦霧的成因，是因為缺乏「行銷邏輯架構」。\n試圖在沒有骨架的狀態下填肉，自然會迷失方向。",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_director.png",
+            panel: 2
         },
         {
             speaker: "AI Coach",
             name: "AI COACH",
             content: "本單元不談複雜理論，只教一套「簡單廣告邏輯」。\n將「產品核心」直接對應到「互動腳本」。\n\n一旦結構確立，創意就不再是天馬行空，而是精準填空。",
-            action: "此為【真實案例】改編 ▶"
+            action: "此為【真實案例】改編 ▶",
+            image: "images/story/story_director.png",
+            panel: 3
         }
     ],
     120: [
@@ -518,13 +594,17 @@ const STORY_TIMELINE = {
             speaker: "Narrator",
             name: "總結：共通痛點",
             content: "這四個案例，指向同一個問題：\n\n1. 學過理論卻做不出來 → 缺實作流程\n2. 廣告有人看卻沒轉換 → 缺參與感\n3. 用 AI 但成效不穩 → 缺驗證機制\n4. 想不到怎麼結合產品 → 缺行銷結構",
-            action: "TAP TO CONTINUE"
+            action: "TAP TO CONTINUE",
+            image: "images/story/story_final_coach.png",
+            panel: 0
         },
         {
             speaker: "AI Coach",
             name: "AI COACH: FINAL LESSON",
             content: "👉 問題不是創意不足，而是沒有一套「好想的結構」。\n\n接下來的最後一波攻勢，請證明你能運用結構，存活下來！",
-            action: "任務指令：活下去，並優化它！"
+            action: "任務指令：活下去，並優化它！",
+            image: "images/story/story_final_coach.png",
+            panel: 1
         }
     ]
 };
@@ -627,6 +707,43 @@ function updateUI() {
                     </span>
                 </div>
 
+                ${content.image ? `
+                <div style="
+                    width: 100%;
+                    height: 250px; /* Fixed height for image area */
+                    overflow: hidden;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background: #000;
+                    position: relative;
+                ">
+                    ${content.image ? (() => {
+                    // Calculate background position based on panel index (0-3)
+                    // 0: Top-Left (0% 0%)
+                    // 1: Top-Right (100% 0%)
+                    // 2: Bottom-Left (0% 100%)
+                    // 3: Bottom-Right (100% 100%)
+                    const p = content.panel !== undefined ? content.panel : 0;
+                    const bx = (p % 2) * 100;
+                    const by = Math.floor(p / 2) * 100;
+
+                    return `
+                        <div style="
+                            width: 100%;
+                            height: 100%;
+                            background-image: url('${content.image}');
+                            background-size: 200% 200%;
+                            background-position: ${bx}% ${by}%;
+                            background-repeat: no-repeat;
+                        "></div>
+                        `;
+                })() : ''}
+                </div>
+                ` : ''}
+
                 <div style="flex-grow: 1; min-height: 100px;">
                     <p style="
                         font-size: 1.15rem; 
@@ -675,6 +792,47 @@ function checkTimeStory() {
 }
 
 // Start
+// LINE Login Logic
+(async function initLineLogin() {
+    // 1. LIFF Initialization (Native Support)
+    try {
+        await liff.init({ liffId: '2008795055-Ynkzrcep' }); // Provided LIFF ID
+        if (liff.isLoggedIn()) {
+            const profile = await liff.getProfile();
+            if (profile.pictureUrl) {
+                localStorage.setItem('player_image', profile.pictureUrl);
+                console.log('LIFF Login Success:', profile.displayName);
+            }
+        } else if (liff.isInClient()) {
+            // Auto login if in LINE App but somehow not logged in
+            liff.login();
+        }
+    } catch (err) {
+        console.warn('LIFF Init Failed:', err);
+    }
+
+    // 2. Check URL Params (Web Redirect Fallback)
+    const params = new URLSearchParams(window.location.search);
+    const pictureUrl = params.get('pictureUrl');
+
+    if (pictureUrl) {
+        localStorage.setItem('player_image', pictureUrl);
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    // 3. Load from LocalStorage
+    const storedImage = localStorage.getItem('player_image');
+    if (storedImage) {
+        const img = new Image();
+        img.src = storedImage;
+        img.onload = () => {
+            state.player.image = img;
+            console.log('Player Image Loaded');
+        };
+    }
+})();
+
 updateUI();
 resize();
 loop();

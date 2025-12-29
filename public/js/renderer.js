@@ -50,7 +50,16 @@ function drawPlayer() {
     ctx.fillStyle = CONFIG.COLORS.player;
     ctx.beginPath();
     ctx.arc(0, 0, state.player.r, 0, Math.PI * 2);
-    ctx.fill();
+
+    // LINE Avatar Support
+    if (state.player.image && state.player.image.complete) {
+        ctx.save();
+        ctx.clip(); // Clip to circle
+        ctx.drawImage(state.player.image, -state.player.r, -state.player.r, state.player.r * 2, state.player.r * 2);
+        ctx.restore();
+    } else {
+        ctx.fill();
+    }
 
     // Overhead Health Bar
     ctx.restore(); // Restore separate from bar to avoid rotation

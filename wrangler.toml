@@ -1,5 +1,10 @@
 name = "marketing-survivor"
 compatibility_date = "2024-09-23"
+main = "src/worker.js"
 
 [assets]
 directory = "./public"
+
+[vars]
+LINE_CHANNEL_ID = "2008795055"
+LINE_CHANNEL_SECRET = "f37a8b3975c488a9c0788cc08036b29c"

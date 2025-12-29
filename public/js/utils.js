@@ -235,7 +235,11 @@ function checkCollisions() {
 
         if (d2 < state.player.r ** 2) {
             // Collect
-            state.xp += g.val;
+            // XP Calculation
+            // Default: 50% Nerf
+            // Logged In: 100% (Bonus restored)
+            const xpMult = state.player.image ? 1.0 : 0.5;
+            state.xp += g.val * xpMult;
             state.gems.splice(i, 1);
             // Ding sound?
             if (state.xp >= state.xpNeeded) {
