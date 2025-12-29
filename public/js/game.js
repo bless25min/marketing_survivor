@@ -9,7 +9,7 @@ function update() {
     state.frames++;
     if (state.frames % 60 === 0) {
         state.seconds++;
-        checkTimeStory();
+        checkTimeEvents();
     }
 
     // Player Move
@@ -772,6 +772,52 @@ function updateUI() {
         ui.style.alignItems = 'flex-end';
         ui.style.justifyContent = 'center';
         ui.style.paddingBottom = '0';
+    } else if (state.screen === 'login_prompt') {
+        ui.innerHTML = `
+            <div style="background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 20px; border: 2px solid #06C755; text-align: center; box-shadow: 0 0 50px rgba(6, 199, 85, 0.4); max-width: 500px; pointer-events: auto;">
+                <h1 style="color: #06C755; margin-bottom: 20px; font-size: 2.5rem;">戰況告急！需要支援！</h1>
+                <p style="color: #e2e8f0; font-size: 1.2rem; margin-bottom: 30px; line-height: 1.6;">
+                    現在登入 LINE 官方帳號<br>
+                    立即獲得 <span style="color: #facc15; font-weight: bold;">XP 100% 加成</span> (原本 50%)
+                </p>
+                
+                <button onclick="window.location.href='/auth/login'" style="
+                    background: #06C755;
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    border-radius: 10px;
+                    font-size: 1.3rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    width: 100%;
+                    margin-bottom: 15px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                    transition: transform 0.1s;
+                " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <span style="font-size: 1.5rem;">💬</span> 立即連結 LINE 帳號
+                </button>
+
+                <button onclick="state.screen='playing'; updateUI();" style="
+                    background: transparent;
+                    color: #94a3b8;
+                    border: 1px solid #475569;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    width: 100%;
+                ">
+                    不，我要繼續使用 50% 經驗值挑戰
+                </button>
+            </div>
+        `;
+        ui.style.display = 'flex';
+        ui.style.background = 'rgba(0,0,0,0.8)';
     } else {
         ui.style.display = 'none';
         ui.style.background = 'transparent';
@@ -789,6 +835,20 @@ function checkTimeStory() {
         return true;
     }
     return false;
+}
+
+function checkTimeEvents() {
+    // 45s Login Prompt
+    if (state.seconds === 45 && !state.storyShown['login_prompt']) {
+        state.storyShown['login_prompt'] = true;
+        // Only show if NOT logged in
+        if (!state.player.image) {
+            state.screen = 'login_prompt';
+            updateUI();
+            return true;
+        }
+    }
+    return checkTimeStory();
 }
 
 // Start
