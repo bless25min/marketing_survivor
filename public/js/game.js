@@ -774,17 +774,20 @@ function updateUI() {
         ui.style.paddingBottom = '0';
     } else if (state.screen === 'login_prompt') {
         ui.innerHTML = `
-            <div style="background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 20px; border: 2px solid #06C755; text-align: center; box-shadow: 0 0 50px rgba(6, 199, 85, 0.4); max-width: 500px; pointer-events: auto;">
-                <h1 style="color: #06C755; margin-bottom: 20px; font-size: 2.5rem;">戰況告急！需要支援！</h1>
-                <p style="color: #e2e8f0; font-size: 1.2rem; margin-bottom: 30px; line-height: 1.6;">
-                    現在登入 LINE 官方帳號<br>
-                    立即獲得 <span style="color: #facc15; font-weight: bold;">XP 100% 加成</span> (原本 50%)
+            <div style="background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 20px; border: 2px solid #a855f7; text-align: center; box-shadow: 0 0 50px rgba(168, 85, 247, 0.4); max-width: 500px; pointer-events: auto;">
+                <h1 style="color: #a855f7; margin-bottom: 20px; font-size: 2.2rem; text-shadow: 0 0 10px #000;">脫離默默無名的詛咒</h1>
+                <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 20px; line-height: 1.6;">
+                    你現在只是一個路人甲...<br>
+                    無法發揮真正的實力 <span style="color: #ef4444;">(XP 50% 限制中)</span>
+                </p>
+                <p style="color: #facc15; font-size: 1.5rem; margin-bottom: 30px; font-weight: bold; text-shadow: 0 0 10px #b45309;">
+                    唯有「取得名稱之力」<br>才能解除封印！
                 </p>
                 
                 <button onclick="window.location.href='/auth/login'" style="
-                    background: #06C755;
+                    background: linear-gradient(135deg, #06C755 0%, #059669 100%);
                     color: white;
-                    border: none;
+                    border: 2px solid #bef264;
                     padding: 15px 30px;
                     border-radius: 10px;
                     font-size: 1.3rem;
@@ -796,28 +799,29 @@ function updateUI() {
                     gap: 10px;
                     width: 100%;
                     margin-bottom: 15px;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                    box-shadow: 0 0 20px rgba(6, 199, 85, 0.5);
                     transition: transform 0.1s;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
                 " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="font-size: 1.5rem;">💬</span> 立即連結 LINE 帳號
+                    <span style="font-size: 1.5rem;">⚔️</span> 取得名稱之力 (LINE 登入)
                 </button>
 
                 <button onclick="state.screen='playing'; updateUI();" style="
                     background: transparent;
-                    color: #94a3b8;
-                    border: 1px solid #475569;
+                    color: #64748b;
+                    border: 1px solid #334155;
                     padding: 10px 20px;
                     border-radius: 8px;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
                     cursor: pointer;
                     width: 100%;
                 ">
-                    不，我要繼續使用 50% 經驗值挑戰
+                    算了，我甘願當個無名氏 (維持 50% XP)
                 </button>
             </div>
         `;
         ui.style.display = 'flex';
-        ui.style.background = 'rgba(0,0,0,0.8)';
+        ui.style.background = 'rgba(0,0,0,0.85)';
     } else {
         ui.style.display = 'none';
         ui.style.background = 'transparent';
