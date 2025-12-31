@@ -778,7 +778,7 @@ function updateUI() {
                 <h1 style="color: #a855f7; margin-bottom: 20px; font-size: 2.2rem; text-shadow: 0 0 10px #000;">脫離默默無名的詛咒</h1>
                 <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 20px; line-height: 1.6;">
                     你現在只是一個路人甲...<br>
-                    無法發揮真正的實力 <span style="color: #ef4444;">(XP 50% 限制中)</span>
+                    無法發揮真正的實力 <span style="color: #ef4444;">(經驗值 50% 限制中)</span>
                 </p>
                 <p style="color: #facc15; font-size: 1.5rem; margin-bottom: 30px; font-weight: bold; text-shadow: 0 0 10px #b45309;">
                     唯有「取得名稱之力」<br>才能解除封印！
@@ -803,20 +803,7 @@ function updateUI() {
                     transition: transform 0.1s;
                     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
                 " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="font-size: 1.5rem;">⚔️</span> 取得名稱之力 (LINE 登入)
-                </button>
-
-                <button onclick="state.screen='playing'; updateUI();" style="
-                    background: transparent;
-                    color: #64748b;
-                    border: 1px solid #334155;
-                    padding: 10px 20px;
-                    border-radius: 8px;
-                    font-size: 0.9rem;
-                    cursor: pointer;
-                    width: 100%;
-                ">
-                    算了，我甘願當個無名氏 (維持 50% XP)
+                    <span style="font-size: 1.5rem;">⚔️</span> 取得名稱之力 (立即連結)
                 </button>
             </div>
         `;
