@@ -803,7 +803,7 @@ function updateUI() {
                     transition: transform 0.1s;
                     text-shadow: 0 1px 2px rgba(0,0,0,0.3);
                 " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                    <span style="font-size: 1.5rem;">⚔️</span> 取得名稱之力 (立即連結)
+                    <span style="font-size: 1.5rem;">⚔️</span> 取得名稱之力 (LINE Login)
                 </button>
             </div>
         `;
