@@ -1,64 +1,131 @@
 # 行銷倖存者 (Marketing Survivor) 📈🧟
 
-在這個瞬息萬變的數位行銷戰場上，只有最強的行銷人能活下來！
-**Marketing Survivor** 是一款結合了 **Roguelite 生存** 與 **數位行銷梗** 的網頁遊戲。扮演一名數位行銷人員，利用你的專業技能（武器）對抗無窮無盡的流量、潛在客戶與市場挑戰！
+> **「在這個流量枯竭的時代，只有最強的行銷人能活下來！」**
 
-![Game Screenshot](https://via.placeholder.com/800x450?text=Marketing+Survivor+Gameplay)
+**Marketing Survivor** 是一款結合 **Roguelite 生存** 與 **數位行銷實戰** 的網頁遊戲。
+你不需要寫程式，你在這裡只需要做一件事：**用你的行銷技能，炸翻那些讓你想辭職的市場挑戰！**
 
-## 🎮 遊戲特色
+![Game Preview](https://via.placeholder.com/800x450?text=Marketing+Survivor+Gameplay)
 
-### ⚔️ 行銷武器庫
-將行銷手段轉化為強力武器，擊退貪婪的怪物：
-- **📝 內容飛刀 (Content)**：基礎但可靠的行銷手段，發射內容打擊敵人。
-- **💣 病毒炸彈 (Viral Bomb)**：製造話題引爆市場，對範圍內敵人造成巨大傷害。
-- **📧 電子報連射 (Newsletter)**：像垃圾郵件一樣無孔不入，自動追蹤並打擊最近的目標。
-- **🛡️ SEO 光環**：建立品牌防護網，持續對接近的敵人造成傷害。
-- **🌈 漏斗力場 (Funnel)**：建立銷售漏斗，將敵人吸入並轉化（造成傷害）。
+---
 
-### 🗺️ 沉浸式戰場
-- **數位防火牆**：地圖四周設有帥氣的紅色呼吸燈邊界 (3000 x 3000)，象徵市場的極限。
-- **動態生成**：怪物會根據你的位置在視野外生成，讓你時刻處於被包圍的緊張感中。
-- **視覺回饋**：完整的傷害數字、爆擊特效與血條顯示。
+## 🎮 遊戲核心 (Core Concept)
+
+這不僅僅是一個殺時間的遊戲，它是一個 **「2 分鐘的微型行銷課程」**。
+透過生存遊戲的機制，我們將抽象的行銷概念具象化：
+
+- **生存 (Survival)** = **市場存活 (Business Runway)**
+- **經驗值 (XP)** = **流量 (Traffic)**
+- **升級 (Upgrade)** = **技能樹 (Skill Tree)**
+- **武器 (Weapon)** = **行銷手段 (Marketing Tactics)**
+
+---
+
+## 📖 劇情模式：2 分鐘行銷特訓 (Story Mode)
+
+遊戲內建 **「時間軸敘事系統」**，隨著生存時間推進，將解鎖不同的職涯案例故事。
+每一段劇情都對應了行銷人在不同階段的痛點：
+
+| 時間 | 章節 | 主角 | 核心痛點 | 學習重點 |
+| :--- | :--- | :--- | :--- | :--- |
+| **00s** | 啟程 | **小杰** (企劃) | "懂理論但不會實作..." | 從落地頁到互動流程 |
+| **30s** | 困境 | **阿慧** (品牌主) | "廣告有人看，沒人買..." | 建立使用者參與感 |
+| **60s** | 覺醒 | **阿哲** (AI行銷) | "AI 文案寫很好，然後呢？" | AI 賦能：結構化產出 |
+| **90s** | 突破 | **行銷總監** | "每次都要從零想創意..." | 建立行銷邏輯架構 |
+| **120s** | 決戰 | **FINAL BOSS** | 市場的最終考驗 | 實戰驗收 |
+
+---
+
+## ⚔️ 軍火庫：行銷手段 (Arsenal)
+
+我們將常見的數位行銷工具變成了毀滅性的武器。選擇你的流派！
+
+### 基礎武器
+| 圖示 | 名稱 | 原型 (Concept) | 攻擊類型 | 效果描述 |
+| :---: | :--- | :--- | :--- | :--- |
+| 📄 | **內容行銷 (Content)** | 基礎圖文產出 | **Projectile** | 發射文件打擊敵人，最基礎但穩定。 |
+| 💣 | **病毒炸彈 (Viral)** | 爆紅話題操作 | **Throw** | 投擲並造成大範圍爆炸傷害。 |
+| ✉️ | **電子報 (Newsletter)** | Email 再行銷 | **Spread** | 向前方散射多封郵件，覆蓋面廣。 |
+| 🌪️ | **銷售漏斗 (Funnel)** | 流量轉化系統 | **Zone** | 召喚持續傷害的區域，將敵人"轉化"掉。 |
+| 🕷️ | **SEO 爬蟲** | 搜尋引擎優化 | **Minion** | 召喚小蜘蛛自動追蹤並攻擊敵人。 |
+| 📞 | **陌生開發 (Cold Call)** | 電話行銷 | **Laser** | 發射高能雷射鎖定單一目標，精準打擊。 |
+| #️⃣ | **熱門標籤 (Hashtag)** | 社群擴散 | **Orbit** | 在身邊旋轉的護盾，保護自己不受近身。 |
+| 📖 | **長文佈道 (Blog Post)** | 深度白皮書 | **Heavy** | 發射巨型書籍，擊退並穿透一排敵人。 |
+| 👁️ | **像素追蹤 (Pixel)** | 廣告追蹤碼 | **Homing** | 發射自動導航的眼睛，死咬著敵人不放。 |
+| ✨ | **網紅光環 (KOL Aura)** | 個人品牌 | **Aura** | 自身周圍造成持續傷害，靠近即死。 |
+
+### 🔗 連動系統 (Synergy System)
+當你擁有多種武器時，可以觸發 **「特徵交換 (Trait Swap)」**！
+例如：
+- **內容行銷** + **病毒炸彈** = **爆炸性內容** (普攻附加爆炸效果)
+- **SEO 爬蟲** + **銷售漏斗** = **自動化漏斗** (召喚物也會留下傷害區域)
+
+---
+
+## 👾 敵人圖鑑 (Beastiary)
+
+你的敵人不是怪物，是市場上的各種阻礙：
+
+- **👻 幽靈 (Lead)**: 冷冰冰的潛在客戶，數量多但脆弱。
+- **😡 坦克 (Tank)**: 奧客或頑固客戶，血厚難打，需要耐心感化。
+- **💸 衝刺者 (Dasher)**: 廣告費燃燒，移動速度極快，必須優先處理！
+- **🧙 遠程 (Ranged)**: 競品暗箭，會從遠處發射負面評價 (Enemy Orb)。
+- **👹 BOSS (Demon)**: **市場崩盤 / 演算法大改**，體型巨大，無視擊退。
+
+---
+
+## 🚀 特色功能 (Features)
+
+### ✅ LINE Login 整合
+- 玩家可使用 LINE 帳號登入遊戲。
+- **登入獎勵**：獲得永久 **+50% 經驗值加成 (XP Boost)**，讓你升級更快！
 
 ### 📱 全平台支援
-- **電腦版**：精準的鍵鼠操作，享受割草快感。
-- **手機版**：優化的 **虛擬搖桿 (Virtual Joystick)** 與觸控介面，隨時隨地都能進行行銷戰鬥。
+- **Desktop**: 支援 WASD / 方向鍵 + 滑鼠瞄準，享受極致操作。
+- **Mobile**: 完美適配的手機版介面，支援 **虛擬搖桿 (Virtual Joystick)** 與觸控操作。
+
+### 📊 即時反饋
+- 傷害數字跳動
+- 爆擊特效
+- 升級三選一 (Roguelite 經典機制)
 
 ---
 
-## 🕹️ 操作方式
+## 🛠️ 技術架構 (Tech Stack)
 
-### 💻 電腦版 (Desktop)
-- **移動**：`W` `A` `S` `D` 或 `方向鍵`
-- **瞄準**：滑鼠游標移動
-- **確認 / 互動**：滑鼠左鍵
+本專案追求極致的效能與最少的依賴：
 
-### 📱 手機版 (Mobile)
-- **移動**：觸控螢幕左半部並拖曳（虛擬搖桿）
-- **選單互動**：直接點擊按鈕
-- **防誤觸機制**：優化的 Pointer Events 處理，防止在激動時誤觸選單。
+- **Frontend**:
+  - `HTML5 Canvas`: 高效能 2D 渲染 (60 FPS)。
+  - `Vanilla JS (ES6+)`: 無框架負擔，純手刻遊戲引擎。
+  - `CSS3`: 現代化 UI 設計與動畫 (Glassmorphism)。
+- **Backend / Edge**:
+  - `Cloudflare Workers`: 處理 LINE OAuth 2.0 登入流程 (Login/Callback)。
+  - `Entities`: 多人連線 (未來規劃)。
+- **Deployment**:
+  - `Cloudflare Pages`: 靜態資源託管。
 
----
+## 👨‍💻 開發者指南 (Developer Guide)
 
-## 🛠️ 技術架構
-本專案使用原生技術構建，追求極致效能與相容性：
-- **核心**：HTML5 Canvas + Vanilla JavaScript (ES6+)
-- **輸入處理**：Unified Pointer Events (統一處理滑鼠與觸控)
-- **部署**：Cloudflare Pages / Wrangler
-
-## 🚀 如何開始
-1. **下載專案**
+### 環境設置
+1. **Clone 專案**
    ```bash
-   git clone https://github.com/your-repo/marketing_survivor.git
+   git clone https://github.com/bless25min/marketing_survivor.git
    ```
-2. **啟動遊戲**
-   - 直接用瀏覽器開啟 `public/index.html`。
-   - 或使用 VS Code 的 **Live Server** 套件執行以獲得最佳體驗。
+2. **安裝依賴** (僅需 Wrangler)
+   ```bash
+   npm install -g wrangler
+   ```
+3. **本地開發**
+   - 使用 VS Code Live Server 啟動 `public/index.html` 即可遊玩前端部分。
+   - 若要測試 LINE Login，需配置 `wrangler.toml` 並運行 `npx wrangler dev`。
 
-## 👨‍💻 開發者筆記
-- 遊戲核心邏輯位於 `public/js/game.js`。
-- 渲染與視覺特效位於 `public/js/renderer.js`。
-- 實體與互動邏輯位於 `public/js/utils.js` 與 `js/entities.js`。
+### 檔案結構
+- `public/js/game.js`: 遊戲主迴圈、輸入處理、UI 更新。
+- `public/js/weapons.js`: 武器定義、行為邏輯、彈幕系統。
+- `public/js/entities.js`: 怪物生成波次 (Wave Config)、AI 行為。
+- `src/worker.js`: Cloudflare Worker 登入邏輯。
 
 ---
+
 *Powered by Deepmind Antigravity & The Marketing Team*
