@@ -125,22 +125,7 @@ window.addEventListener('pointerdown', (e) => {
         state.screen = 'start';
         return;
     }
-    if (state.screen === 'story') {
-        // PREVENT GHOST EVENTS: Telling browser we handled this.
-        e.preventDefault();
 
-        const now = Date.now();
-        if (now - (state.lastStoryTime || 0) < 300) return; // 0.3s Debounce for natural reading rhythm
-        state.lastStoryTime = now;
-
-        state.storyStep = (state.storyStep || 0) + 1;
-        if (state.storyStep < state.storyContent.length) {
-            updateUI();
-        } else {
-            state.screen = 'playing';
-            updateUI();
-        }
-    }
 });
 
 // Touch / Virtual Joystick
@@ -332,39 +317,7 @@ function updateUI() {
         ui.innerHTML = html;
         ui.style.display = 'flex';
         ui.style.background = 'rgba(0,0,0,0.8)';
-    } else if (state.screen === 'story') {
-        // Story Rendering logic (already handled by dynamic content)
-        // Re-using the logic from previous edits but ensuring it's robust
-        const currentSlide = state.storyContent[state.storyStep] || state.storyContent[0];
 
-        let avatar = '👨‍🏫';
-        let nameColor = '#facc15';
-        let borderColor = '#a855f7';
-
-        if (currentSlide.speaker !== 'AI COACH' && currentSlide.speaker !== 'Narrator' && currentSlide.speaker !== 'Marketing Director') {
-            avatar = '😰'; // User avatar
-            nameColor = '#38bdf8'; // Blue for users
-            borderColor = '#0ea5e9';
-        } else if (currentSlide.speaker === 'Thinking') {
-            avatar = '🤔';
-        }
-
-        ui.innerHTML = `
-            <div style="background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 20px; border: 2px solid ${borderColor}; max-width: 600px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8);">
-                <div style="font-size: 4rem; margin-bottom: 10px;">${avatar}</div>
-                <h2 style="color: ${nameColor}; margin-bottom: 20px; font-size: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">${currentSlide.name}</h2>
-                <div style="font-size: 1.5rem; line-height: 1.6; color: #e2e8f0; white-space: pre-line; text-align: left; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">${currentSlide.content}</div>
-                
-                <div style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: #64748b; font-size: 0.9rem;">${state.storyStep + 1} / ${state.storyContent.length}</span>
-                    <div style="font-size: 1.2rem; color: #facc15; animation: pulse 1s infinite; font-weight: bold; cursor: pointer;">
-                        ${currentSlide.action || "點擊繼續 ▶"}
-                    </div>
-                </div>
-            </div>
-        `;
-        ui.style.display = 'flex';
-        ui.style.background = 'rgba(0,0,0,0.7)';
     } else {
         ui.style.display = 'none';
 
@@ -438,176 +391,11 @@ function resetGame() {
 
     state.stats = { damageMult: 1, areaMult: 1, speedMult: 1, cooldownMult: 1, amountMult: 0, pierce: 0 };
 
-    state.storyShown = {}; // Reset story tracking
-    state.storyStep = 0; // Initialize story step
+
     updateUI();
 }
 
-// Narrative Script (Interactive Visual Novel Style) - Full Content Version
-const STORY_TIMELINE = {
-    1: [
-        {
-            speaker: "Narrator",
-            name: "案例一：小杰 (行銷企劃)",
-            content: "小杰是行銷企劃，他看過遊戲化理論、玩過案例，也能說出一堆動機設計名詞。\n\n但每次真的要做活動時，問題就來了。\n他知道「要有關卡、回饋、動機」，卻不知道第一步該怎麼開始。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_little_jie.png",
-            panel: 0
-        },
-        {
-            speaker: "Little Jie",
-            name: "小杰",
-            content: "「我畫了一堆心智圖流程圖，最後還是回到一個靜態落地頁，加一句『加入 LINE 獲得好康』...\n不是我不懂理論，而是理論跟實作之間，根本少了一條橋。」",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_little_jie.png",
-            panel: 1
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "這堂課，就是把那條橋搭起來：\n從「我要加 LINE 好友」開始，一步一步拆成「使用者會怎麼玩、什麼時候願意登入、完成後得到什麼」。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_little_jie.png",
-            panel: 2
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "他第一次發現，原來遊戲化不是想得漂亮，而是流程走得順。",
-            action: "此為【真實案例】改編 ▶",
-            image: "images/story/story_little_jie.png",
-            panel: 3
-        }
-    ],
-    30: [
-        {
-            speaker: "Narrator",
-            name: "案例二：阿慧 (品牌主)",
-            content: "阿慧每個月都在投廣告，曝光數看起來不差，但 LINE 好友數卻成長得很慢。\n她試過很多方式：換圖、換文案、送折扣、送抽獎，但加好友的那一步，永遠是最大的斷點。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_hui.png",
-            panel: 0
-        },
-        {
-            speaker: "Ah Hui",
-            name: "阿慧",
-            content: "「後來我才意識到一件事：問題不在誘因，而在使用者根本沒有『參與感』。\n廣告只是被看過，但沒有被『玩過』。」",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_hui.png",
-            panel: 1
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "在課程中，她把原本的 CTA 改成一個簡單的互動流程，讓使用者先完成一個小任務，再自然引導 LINE Login。\n\n結果不是奇蹟式爆量，而是完成率與加好友率穩定上升。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_hui.png",
-            panel: 2
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "她第一次明白，行銷不是喊人留下資料，而是設計一段「讓人願意走完的體驗」。",
-            action: "此為【真實案例】改編 ▶",
-            image: "images/story/story_ah_hui.png",
-            panel: 3
-        }
-    ],
-    60: [
-        {
-            speaker: "Narrator",
-            name: "案例三：阿哲 (行銷人)",
-            content: "阿哲很早就開始用 AI。他用 ChatGPT 寫文案、想點子，看起來都很厲害。\n但那些內容，始終停留在文件裡。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_zhe.png",
-            panel: 0
-        },
-        {
-            speaker: "Ah Zhe",
-            name: "阿哲",
-            content: "「我不知道怎麼把這些想法變成真的上線的網頁，更不會寫程式串接互動...\n我好像想得到，但就是做不出來。\nAI 對我來說只是一個靈感產生器，不是能幫我把事情完成的工具。」",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_zhe.png",
-            panel: 1
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "直到在這堂課，他第一次用 AI 做的不是「文案」，而是整個遊戲化落地頁的結構。\n\n用 AI 拆解目標、產出遊戲流程、選項、引導說明，並直接拿來部署。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_zhe.png",
-            panel: 2
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "原來不用寫程式，也可以把創意真正做成落地頁！\n\nAI 在這裡不再只是「幫你想」，而是幫你把想法拆成結構、變成頁面、丟進市場跑。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_ah_zhe.png",
-            panel: 3
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "更關鍵的是，他不再問「哪個比較好」，而是直接做兩個版本實際跑廣告看數據。\n\n那一刻他才理解，AI 的價值不是創意，而是把創意變成可以被驗證的東西。",
-            action: "此為【真實案例】改編 ▶",
-            image: "images/story/story_ah_zhe.png",
-            panel: 3
-        }
-    ],
-    90: [
-        {
-            speaker: "Narrator",
-            name: "案例四：告別行銷腦霧",
-            content: "許多行銷人在面對新專案時，常陷入「腦霧」狀態：\n看著產品，腦袋卻一片空白，完全不知道該從何下手。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_director.png",
-            panel: 0
-        },
-        {
-            speaker: "Marketing Director",
-            name: "行銷總監",
-            content: "「我們不是沒經驗，而是每次都要從零發想，消耗巨大心力。\n我們需要的，不只是偶爾的靈感，而是一套能穩定產出的邏輯。」",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_director.png",
-            panel: 1
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "腦霧的成因，是因為缺乏「行銷邏輯架構」。\n試圖在沒有骨架的狀態下填肉，自然會迷失方向。",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_director.png",
-            panel: 2
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH",
-            content: "本單元不談複雜理論，只教一套「簡單廣告邏輯」。\n將「產品核心」直接對應到「互動腳本」。\n\n一旦結構確立，創意就不再是天馬行空，而是精準填空。",
-            action: "此為【真實案例】改編 ▶",
-            image: "images/story/story_director.png",
-            panel: 3
-        }
-    ],
-    120: [
-        {
-            speaker: "Narrator",
-            name: "總結：共通痛點",
-            content: "這四個案例，指向同一個問題：\n\n1. 學過理論卻做不出來 → 缺實作流程\n2. 廣告有人看卻沒轉換 → 缺參與感\n3. 用 AI 但成效不穩 → 缺驗證機制\n4. 想不到怎麼結合產品 → 缺行銷結構",
-            action: "TAP TO CONTINUE",
-            image: "images/story/story_final_coach.png",
-            panel: 0
-        },
-        {
-            speaker: "AI Coach",
-            name: "AI COACH: FINAL LESSON",
-            content: "👉 問題不是創意不足，而是沒有一套「好想的結構」。\n\n接下來的最後一波攻勢，請證明你能運用結構，存活下來！",
-            action: "任務指令：活下去，並優化它！",
-            image: "images/story/story_final_coach.png",
-            panel: 1
-        }
-    ]
-};
+
 
 function updateUI() {
     const ui = document.getElementById('ui');
@@ -662,116 +450,7 @@ function updateUI() {
         ui.innerHTML = html;
         ui.style.display = 'flex';
         ui.style.background = 'rgba(0,0,0,0.85)';
-    } else if (state.screen === 'story') {
-        const step = state.storyStep || 0;
-        // Safety check
-        if (!state.storyContent || !state.storyContent[step]) return;
 
-        const content = state.storyContent[step];
-        const isSpeakerAI = content.speaker.includes('AI');
-
-        ui.innerHTML = `
-            <div style="
-                position: fixed;
-                bottom: 50px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 85%;
-                max-width: 800px;
-                background: rgba(15, 23, 42, 0.95);
-                border: 2px solid ${isSpeakerAI ? '#facc15' : '#3b82f6'};
-                border-radius: 12px;
-                padding: 20px 30px;
-                box-shadow: 0 0 30px rgba(${isSpeakerAI ? '250, 204, 21' : '59, 130, 246'}, 0.3);
-                display: flex;
-                flex-direction: column;
-                font-family: 'Segoe UI', sans-serif;
-                z-index: 1000;
-                pointer-events: auto; 
-                cursor: pointer;
-            ">
-                <div style="
-                    display: flex; 
-                    align-items: center; 
-                    margin-bottom: 15px;
-                    border-bottom: 1px solid #334155; 
-                    padding-bottom: 10px; 
-                ">
-                    <span style="
-                        font-size: 1.2rem; 
-                        font-weight: bold; 
-                        color: ${isSpeakerAI ? '#facc15' : '#60a5fa'};
-                        margin-right: 15px;
-                    ">
-                        ${content.name}
-                    </span>
-                </div>
-
-                ${content.image ? `
-                <div style="
-                    width: 100%;
-                    height: 250px; /* Fixed height for image area */
-                    overflow: hidden;
-                    border-radius: 8px;
-                    margin-bottom: 15px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background: #000;
-                    position: relative;
-                ">
-                    ${content.image ? (() => {
-                    // Calculate background position based on panel index (0-3)
-                    // 0: Top-Left (0% 0%)
-                    // 1: Top-Right (100% 0%)
-                    // 2: Bottom-Left (0% 100%)
-                    // 3: Bottom-Right (100% 100%)
-                    const p = content.panel !== undefined ? content.panel : 0;
-                    const bx = (p % 2) * 100;
-                    const by = Math.floor(p / 2) * 100;
-
-                    return `
-                        <div style="
-                            width: 100%;
-                            height: 100%;
-                            background-image: url('${content.image}');
-                            background-size: 200% 200%;
-                            background-position: ${bx}% ${by}%;
-                            background-repeat: no-repeat;
-                        "></div>
-                        `;
-                })() : ''}
-                </div>
-                ` : ''}
-
-                <div style="flex-grow: 1; min-height: 100px;">
-                    <p style="
-                        font-size: 1.15rem; 
-                        line-height: 1.6; 
-                        color: #e2e8f0; 
-                        white-space: pre-line;
-                        margin: 0;
-                    ">
-                        ${content.content}
-                    </p>
-                </div>
-
-                <div style="
-                    text-align: right; 
-                    margin-top: 15px; 
-                    font-size: 0.9rem; 
-                    color: #94a3b8; 
-                    animation: pulse 1s infinite;
-                ">
-                    ${content.action}
-                </div>
-            </div>
-        `;
-        ui.style.display = 'flex';
-        ui.style.background = 'rgba(0, 0, 0, 0.4)';
-        ui.style.alignItems = 'flex-end';
-        ui.style.justifyContent = 'center';
-        ui.style.paddingBottom = '0';
     } else if (state.screen === 'login_prompt') {
         ui.innerHTML = `
             <div style="background: rgba(15, 23, 42, 0.95); padding: 40px; border-radius: 20px; border: 2px solid #a855f7; text-align: center; box-shadow: 0 0 50px rgba(168, 85, 247, 0.4); max-width: 500px; pointer-events: auto;">
@@ -815,18 +494,7 @@ function updateUI() {
     }
 }
 
-function checkTimeStory() {
-    // Check if current second has a story and it hasn't been shown
-    if (STORY_TIMELINE[state.seconds] && !state.storyShown[state.seconds]) {
-        state.screen = 'story';
-        state.storyContent = STORY_TIMELINE[state.seconds];
-        state.storyStep = 0; // Initialize step to 0
-        state.storyShown[state.seconds] = true;
-        updateUI();
-        return true;
-    }
-    return false;
-}
+
 
 function checkTimeEvents() {
     // 45s Login Prompt
@@ -839,7 +507,7 @@ function checkTimeEvents() {
             return true;
         }
     }
-    return checkTimeStory();
+    return false;
 }
 
 // Start
