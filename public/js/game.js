@@ -309,7 +309,7 @@ function updateUI() {
             
             <div style="margin-top: 40px; text-align: center;">
                 <p style="color: #fbbf24; font-size: 1.2rem; margin-bottom: 10px;">想知道如何突破行銷瓶頸？</p>
-                <button class="course-btn" onclick="window.open('https://www.25min.co/', '_blank')" 
+                <button class="course-btn" onclick="window.open('https://ppa.tw/s/B85ADABB', '_blank')" 
                     style="padding: 15px 30px; font-size: 1.5rem; background: #6366f1; color: white; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 0 15px #4f46e5; transition: transform 0.1s;">
                     🎓 前往課程 (View Course)
                 </button>
@@ -627,7 +627,7 @@ function updateUI() {
             <h1 style="color: #ef4444; text-shadow: 0 0 20px #7f1d1d;">任務失敗</h1>
             <p>存活時間: ${Math.floor(state.seconds)} 秒</p>
             <div style="display: flex; gap: 20px; margin-top: 20px; pointer-events: auto;">
-                <button class="course-btn" onclick="window.open('https://www.25min.co/', '_blank')" style="
+                <button class="course-btn" onclick="window.open('https://ppa.tw/s/B85ADABB', '_blank')" style="
                     background: #facc15; 
                     color: #000; 
                     border: none; 

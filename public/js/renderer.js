@@ -54,6 +54,7 @@ function drawPlayer() {
     // LINE Avatar Support
     if (state.player.image && state.player.image.complete) {
         ctx.save();
+        ctx.rotate(-state.player.angle); // Counter-rotate to keep image upright
         ctx.clip(); // Clip to circle
         ctx.drawImage(state.player.image, -state.player.r, -state.player.r, state.player.r * 2, state.player.r * 2);
         ctx.restore();
